@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.0.0"
 	id("io.spring.dependency-management") version "1.1.0"
+	id("com.diffplug.spotless") version "6.12.0"
 }
 
 group = "com.mutec"
@@ -32,4 +33,15 @@ dependencies {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+spotless {
+	java {
+		target(fileTree(rootDir) {
+			include("src/**/*.java")
+			exclude("src/jooq")
+		})
+		removeUnusedImports()
+		googleJavaFormat("1.15.0")
+	}
 }
